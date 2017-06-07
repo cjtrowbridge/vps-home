@@ -10,7 +10,6 @@
 </head>
 
 <body>
-<div class="container">
 	<h1><?php echo file_get_contents('/etc/hostname'); ?> (<?php echo $_SERVER['SERVER_ADDR']; ?>)</h1>
 	<?php 
 	
@@ -53,6 +52,10 @@
 
 		<h2><a href="webs/">Webs</a></h2>
 		<pre><?php echo shell_exec('du -sh /var/www/*');?></pre>
+		
+		<h2><a href="webs/">Top</a></h2>
+                <pre><?php passthru('/usr/bin/top -b -n 1'); ?></pre>
+
 
 	</div>
 	<div class="col-md-6 col-sm-12 col-xs-12">
