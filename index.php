@@ -51,13 +51,9 @@
 
 		?>
 
-		<h2><a href="webs/">Webs</a></h2>
+		<h2>Directory Sizes</h2>
 		<pre><?php echo shell_exec('du -sh /var/www/*');?></pre>
 		
-		<h2><a href="webs/">Top</a></h2>
-                <pre><?php passthru('/usr/bin/top -b -n 1'); ?></pre>
-
-
 	</div>
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		
@@ -67,6 +63,9 @@
 		<pre><?php echo file_get_contents('/etc/motd'); ?></pre>
 		<h2>df -h</h2>
 		<pre><?php passthru('df -h'); ?></pre>
+		<h2>Top</h2>
+                <pre><?php passthru('/usr/bin/top -b -n 1'); ?></pre>
+		
 	</div>
 </div>
 </body>
