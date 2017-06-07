@@ -10,6 +10,7 @@
 </head>
 
 <body>
+<div class="container-fluid">
 	<h1><?php echo file_get_contents('/etc/hostname'); ?> (<?php echo $_SERVER['SERVER_ADDR']; ?>)</h1>
 	<?php 
 	
