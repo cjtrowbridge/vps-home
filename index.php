@@ -54,6 +54,26 @@
 		<h2>Directory Sizes</h2>
 		<pre><?php echo shell_exec('du -sh /var/www/*');?></pre>
 		
+		<h2>Webs</h2>
+		<pre><?php 
+		  $Lines = shell_exec('du -sh /var/www/webs/*');
+		  $Lines = explode(PHP_EOL,$Lines);
+		  foreach($Lines as $Line){
+			$Link = stristr($Line,'/var/www/webs/');
+			$Link = substr($Link,14);
+			echo '<p>';
+			$IP = gethostbyname($Link);
+			if($IP==$_SERVER['SERVER_ADDR']){$Local = true;}else{$Local = false;}
+			if(!($Local)){echo '<strike>';}
+			if(!($Local)){echo '<span title="'.$Link.' resolves to '.$IP.'.'.PHP_EOL.'This does not match local IP of '.$_SERVER['SERVER_ADDR'].'">';}
+			echo '<a href="//'.$Link.'" target="_blank">'.$Line.'</a></p>'.PHP_EOL;
+			if(!($Local)){echo '</span></strike>';}
+		  }
+		?></pre>
+
+		<h2>Backups</h2>
+		<pre><?php echo shell_exec('du -sh /var/www/backups/*');?></pre>
+		
 	</div>
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		
