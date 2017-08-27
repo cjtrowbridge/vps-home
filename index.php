@@ -1,4 +1,15 @@
-<!DOCTYPE html>
+<?php
+
+function gitGlobalHash(){
+  $Hash = FetchURL('https://api.github.com/repos/cjtrowbridge/vps-home/git/refs/heads/master');
+  $Hash = json_decode($Hash,true);
+  if($Hash==false){return false;}
+  if(!(isset($Hash['object']))){return false;}
+  if(!(isset($Hash['object']['sha']))){return false;}
+  return trim($Hash['object']['sha']);
+}
+
+?><!DOCTYPE html>
 <html>
 
 <head>
@@ -19,19 +30,34 @@
 			echo '<h2 class="warning">LOW DISK SPACE</h2>';
 		}
 		
+		$GlobalHash = gitGlobalHash();
+		
 		if(isset($_GET['update'])){
 			echo '<h2>Attempting to update VPS-Home...</h2>';
 			//echo exec("wget https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php -O index.php");
 			$New = file_get_contents('https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php');
+			if($New==false){
+				echo '<p>Unable to fetch update! Check connection?</p>';
+			}else{
+				echo '<p>Fetched Update. Saving...</p>';
+			}
 			
-			file_put_contents('index.php',$New);
 			
-			if(!($New==false)){
-				echo '<p>Unable to update! Check permissions?</p>';
+			
+			$New = '<?php $CurrentHash = "'.$GlobalHash.'"; ?>'.$New;
+			
+			$Save = file_put_contents('index.php',$New);
+			
+			if($Save==false){
+				echo '<p>Unable to save update! Check permissions?</p>';
+			}else{
+				echo '<p>Update complete!</p>';
 			}
 			exit;
 		}else{
-			
+			if(!($GlobalHash==$CurrentHash)){
+				echo '<h2><a href="./?update">Updates Available!</a></h2>';
+			}
 		}
 		
 	?>
