@@ -106,7 +106,7 @@ function gitGlobalHash(){
 			if($Save==false){
 				echo '<p>Unable to save update! Check permissions?</p>';
 			}else{
-				echo '<p>Update complete!</p>';
+				echo '<p>Update complete!</p><p><a href="./">Back to Home</a></p>';
 			}
 			exit;
 		}else{
