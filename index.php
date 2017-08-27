@@ -98,10 +98,8 @@ function gitGlobalHash(){
 				echo '<p>Fetched Update. Saving...</p>';
 			}
 			
-			
-			
 			$New = '<?php $CurrentHash = "'.$GlobalHash.'"; ?>'.$New;
-			
+			$New = str_replace('?><?php',PHP_EOL,$New);
 			$Save = file_put_contents('index.php',$New);
 			
 			if($Save==false){
