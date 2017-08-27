@@ -164,7 +164,11 @@ function gitGlobalHash(){
 			$Link = substr($Link,14);
 			echo '<p>';
 			$IP = gethostbyname($Link);
-			if($IP==$_SERVER['SERVER_ADDR']){$Local = true;}else{$Local = false;}
+			if(
+				$IP==$_SERVER['SERVER_ADDR']||
+				$IP=='127.0.1.1'||
+				$IP=='127.0.0.1'
+			){$Local = true;}else{$Local = false;}
 			if(!($Local)){echo '<strike>';}
 			if(!($Local)){echo '<span title="'.$Link.' resolves to '.$IP.'.'.PHP_EOL.'This does not match local IP of '.$_SERVER['SERVER_ADDR'].'">';}
 			echo '<a href="//'.$Link.'" target="_blank">'.$Line.'</a></p>'.PHP_EOL;
