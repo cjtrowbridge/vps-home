@@ -12,13 +12,22 @@
 <body>
 <div class="container-fluid">
 	<h1><?php echo file_get_contents('/etc/hostname'); ?> (<?php echo $_SERVER['SERVER_ADDR']; ?>)</h1>
+	<div class="col-xs-12">
 	<?php 
 	
 		if(disk_free_space('/')<(1e+9)){
 			echo '<h2 class="warning">LOW DISK SPACE</h2>';
 		}
 		
+		if(isset($_GET['update-vps-home'])){
+			echo '<h2>Attempting to update VPS-Home...</h2><pre>';
+			echo shell_exec("wget https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php -O index.php");
+			echo '</pre>';
+			exit;
+		}
+		
 	?>
+	</div>
 	<hr>
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		
