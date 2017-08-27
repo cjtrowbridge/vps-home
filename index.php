@@ -20,10 +20,18 @@
 		}
 		
 		if(isset($_GET['updatevpshome'])){
-			echo '<h2>Attempting to update VPS-Home...</h2><pre>';
-			echo system("wget https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php -O index.php");
-			echo '</pre>';
+			echo '<h2>Attempting to update VPS-Home...</h2>';
+			//echo exec("wget https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php -O index.php");
+			$New = file_get_contents('https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php');
+			
+			file_put_contents('index.php',$New);
+			
+			if(!($New==false)){
+				echo '<p>Unable to update! Check permissions?</p>';
+			}
 			exit;
+		}else{
+			
 		}
 		
 	?>
