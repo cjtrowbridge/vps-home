@@ -55,7 +55,10 @@ function gitGlobalHash(){
 			}
 			exit;
 		}else{
-			if(!($GlobalHash==$CurrentHash)){
+			if(
+				(!(isset($CurrentHash)))||
+				(!($GlobalHash==$CurrentHash))
+			){
 				echo '<h2><a href="./?update">Updates Available!</a></h2>';
 			}
 		}
