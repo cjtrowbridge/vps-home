@@ -78,7 +78,8 @@ function gitGlobalHash(){
 
 <body>
 <div class="container-fluid">
-	<h1><?php echo file_get_contents('/etc/hostname'); ?> (<?php echo $_SERVER['SERVER_ADDR']; ?>)<?php if(isset($CurrentHash)){echo '('.$CurrentHash.')';} ?></h1>
+	<h1<?php if(isset($CurrentHash)){echo ' title="Version: '.$CurrentHash.'"';} ?>><?php echo file_get_contents('/etc/hostname'); ?> (<?php echo $_SERVER['SERVER_ADDR']; ?>)</h1>
+	
 	<div class="col-xs-12">
 	<?php 
 	
