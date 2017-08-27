@@ -19,7 +19,7 @@
 			echo '<h2 class="warning">LOW DISK SPACE</h2>';
 		}
 		
-		if(isset($_GET['updatevpshome'])){
+		if(isset($_GET['update'])){
 			echo '<h2>Attempting to update VPS-Home...</h2>';
 			//echo exec("wget https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php -O index.php");
 			$New = file_get_contents('https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php');
