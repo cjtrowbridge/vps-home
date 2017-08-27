@@ -1,7 +1,7 @@
 <?php
 
 function gitGlobalHash(){
-  $Hash = FetchURL('https://api.github.com/repos/cjtrowbridge/vps-home/git/refs/heads/master');
+  $Hash = file_get_contents('https://api.github.com/repos/cjtrowbridge/vps-home/git/refs/heads/master');
   $Hash = json_decode($Hash,true);
   if($Hash==false){return false;}
   if(!(isset($Hash['object']))){return false;}
