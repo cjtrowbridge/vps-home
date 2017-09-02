@@ -3,6 +3,12 @@
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
+if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on'){
+  header("Status: 301 Moved Permanently");
+  header(sprintf('Location: https://%s%s',$_SERVER['HTTP_HOST'],$_SERVER['REQUEST_URI']));
+  exit();
+}
+
 function FetchURL($URL, $Method = 'GET', $Arguments = false,$Authorization = false,$UserAgent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13',$OtherHeaders = false){
   
   if($URL==''){
