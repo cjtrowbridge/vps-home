@@ -138,7 +138,7 @@ if(isset($_GET['fetch'])){
 			echo '<a href="//'.$Link.'" target="_blank">'.$Line.'</a></p>'.PHP_EOL;
 			if(!($Local)){echo '</span></strike>';}
 		  }
-			break;
+			exit;
 	}
 	die('Unknown Error at Path: /?fetch='.$_GET['fetch']);
 }
@@ -159,7 +159,7 @@ if(isset($_GET['fetch'])){
 	<h1<?php if(isset($CurrentHash)){echo ' title="Version: '.$CurrentHash.'"';} ?>><?php echo file_get_contents('/etc/hostname'); ?> (<?php echo $_SERVER['SERVER_ADDR']; ?>)</h1>
 	
 	<div class="col-xs-12">
-		<div class="fetch" data-uri="./?fetch=disk-space-error"><?php /*if(disk_free_space('/')<(1e+9)){echo '<h2 class="warning">LOW DISK SPACE</h2>';} */ ?></div>
+		<div class="fetch" data-uri="./?fetch=free-space-error"><?php /*if(disk_free_space('/')<(1e+9)){echo '<h2 class="warning">LOW DISK SPACE</h2>';} */ ?></div>
 		<div class="fetch" data-uri="./?fetch=update-vps-home"></div>
 	</div>
 	<hr>
