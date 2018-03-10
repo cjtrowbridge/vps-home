@@ -120,7 +120,25 @@ if(isset($_GET['fetch'])){
 				echo '<h2 class="warning">LOW DISK SPACE</h2>';
 			}
 			exit;
-
+		case 'webs':
+			$Lines = shell_exec('du -sh /var/www/webs/*');
+		  $Lines = explode(PHP_EOL,$Lines);
+		  foreach($Lines as $Line){
+			$Link = stristr($Line,'/var/www/webs/');
+			$Link = substr($Link,14);
+			echo '<p>';
+			$IP = gethostbyname($Link);
+			if(
+				$IP==$_SERVER['SERVER_ADDR']||
+				$IP=='127.0.1.1'||
+				$IP=='127.0.0.1'
+			){$Local = true;}else{$Local = false;}
+			if(!($Local)){echo '<strike>';}
+			if(!($Local)){echo '<span title="'.$Link.' resolves to '.$IP.'.'.PHP_EOL.'This does not match local IP of '.$_SERVER['SERVER_ADDR'].'">';}
+			echo '<a href="//'.$Link.'" target="_blank">'.$Line.'</a></p>'.PHP_EOL;
+			if(!($Local)){echo '</span></strike>';}
+		  }
+			break;
 	}
 }
 
@@ -179,8 +197,8 @@ if(isset($_GET['fetch'])){
 		<pre><?php echo shell_exec('du -sh /var/www/*');?></pre>
 		
 		<h2>Webs</h2>
-		<pre><?php 
-		  $Lines = shell_exec('du -sh /var/www/webs/*');
+		<pre class="fetch" data-uri="./?fetch=webs"><?php 
+		  /* $Lines = shell_exec('du -sh /var/www/webs/*');
 		  $Lines = explode(PHP_EOL,$Lines);
 		  foreach($Lines as $Line){
 			$Link = stristr($Line,'/var/www/webs/');
@@ -196,7 +214,7 @@ if(isset($_GET['fetch'])){
 			if(!($Local)){echo '<span title="'.$Link.' resolves to '.$IP.'.'.PHP_EOL.'This does not match local IP of '.$_SERVER['SERVER_ADDR'].'">';}
 			echo '<a href="//'.$Link.'" target="_blank">'.$Line.'</a></p>'.PHP_EOL;
 			if(!($Local)){echo '</span></strike>';}
-		  }
+		  } */
 		?></pre>
 
 		<h2>Backups</h2>
