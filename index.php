@@ -140,6 +140,7 @@ if(isset($_GET['fetch'])){
 		  }
 			break;
 	}
+	die('Unknown Error at Path: /?fetch='.$_GET['fetch']);
 }
 
 ?><!DOCTYPE html>
