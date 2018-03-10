@@ -1,5 +1,7 @@
 <?php
 
+$StartTime=microtime(true);
+
 error_reporting(E_ALL);
 ini_set('display_errors', '1');
 
@@ -240,6 +242,8 @@ if(isset($_GET['fetch'])){
 	}
 	LoadTools();
 </script>
+	
+	<p><small>Loaded in <?php echo round(microtime(true)-$StartTime,4); ?> seconds.</small></p>
 
 </body>
 
