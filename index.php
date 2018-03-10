@@ -248,5 +248,4 @@ if(isset($_GET['fetch'])){
 	<p><small>Loaded in <?php echo round(microtime(true)-$StartTime,4); ?> seconds.</small></p>
 
 </body>
-
 </html>
