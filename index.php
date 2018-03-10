@@ -142,6 +142,8 @@ if(isset($_GET['fetch'])){
 			if(!($Local)){echo '</span></strike>';}
 		  }
 			exit;
+		case 'dirs':
+			die(shell_exec('du -sh /var/www/*'));
 	}
 	die('Unknown Error at Path: /?fetch='.$_GET['fetch']);
 }
@@ -198,7 +200,7 @@ if(isset($_GET['fetch'])){
 		?>
 
 		<h2>Directory Sizes</h2>
-		<pre><?php echo shell_exec('du -sh /var/www/*');?></pre>
+		<pre class="fetch" data-uri="./?fetch=dirs"></pre>
 
 		<h2>Backups</h2>
 		<pre class="fetch" data-uri="./?fetch=backups"></pre>
