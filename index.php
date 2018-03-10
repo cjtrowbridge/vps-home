@@ -92,35 +92,36 @@ if(isset($_GET['update'])){
 	}
 	exit;
 }
+if(issset($_GET['fetch'])){
+	switch($_GET['fetch']){
+		case 'uptime':
+			die(shell_exec('uptime'));
+		case 'motd':
+			die(file_get_contents('/etc/motd'));
+		case 'df':
+			passthru('df -h');
+			exit;
+		case 'top':
+			 passthru('/usr/bin/top -b -n 1');
+			exit;
+		case 'update-vps-home':
+			$GlobalHash = gitGlobalHash();
+			if(
+				(!(isset($CurrentHash)))||
+				(!($GlobalHash==$CurrentHash))
+			){
+				echo '<h2><a href="./?update">Updates Available!</a></h2>';
+			}
+			break;
+		case 'backups':
+			die(shell_exec('du -sh /var/www/backups/*'));
+		case 'free-space-error':
+			if(disk_free_space('/')<(1e+9)){
+				echo '<h2 class="warning">LOW DISK SPACE</h2>';
+			}
+			exit;
 
-switch($_GET['fetch']){
-	case 'uptime':
-		die(shell_exec('uptime'));
-	case 'motd':
-		die(file_get_contents('/etc/motd'));
-	case 'df':
-		passthru('df -h');
-		exit;
-	case 'top':
-		 passthru('/usr/bin/top -b -n 1');
-		exit;
-	case 'update-vps-home':
-		$GlobalHash = gitGlobalHash();
-		if(
-			(!(isset($CurrentHash)))||
-			(!($GlobalHash==$CurrentHash))
-		){
-			echo '<h2><a href="./?update">Updates Available!</a></h2>';
-		}
-		break;
-	case 'backups':
-		die(shell_exec('du -sh /var/www/backups/*'));
-	case 'free-space-error':
-		if(disk_free_space('/')<(1e+9)){
-			echo '<h2 class="warning">LOW DISK SPACE</h2>';
-		}
-		exit;
-		
+	}
 }
 
 ?><!DOCTYPE html>
