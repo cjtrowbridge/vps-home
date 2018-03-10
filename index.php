@@ -252,6 +252,7 @@ if(isset($_GET['fetch'])){
 
 		});
 	}
+	LoadTools();
 </script>
 
 </body>
