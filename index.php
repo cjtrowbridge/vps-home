@@ -241,10 +241,10 @@ if(isset($_GET['fetch'])){
 	function LoadTools(){
 		$('.fetch').each( function( index, listItem ) {
 			
-			$(this).html('Loading...');
-			
 			var uri = $(this).data('uri');
-
+			
+			$(this).html('Loading <a href="'+uri+'">'+uri+'</a>...');
+			
 			var jqxhr = $.get(uri, function(data) {
 				$("ul[data-uri='"+uri+"']").html(data);
 			})
