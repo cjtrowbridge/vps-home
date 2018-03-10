@@ -92,7 +92,7 @@ if(isset($_GET['update'])){
 	}
 	exit;
 }
-if(issset($_GET['fetch'])){
+if(isset($_GET['fetch'])){
 	switch($_GET['fetch']){
 		case 'uptime':
 			die(shell_exec('uptime'));
