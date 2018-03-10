@@ -71,6 +71,58 @@ function gitGlobalHash(){
   return trim($Hash['object']['sha']);
 }
 
+if(isset($_GET['update'])){
+	echo '<h2>Attempting to update VPS-Home...</h2>';
+	//echo exec("wget https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php -O index.php");
+	$New = file_get_contents('https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php');
+	if($New==false){
+		echo '<p>Unable to fetch update! Check connection?</p>';
+	}else{
+		echo '<p>Fetched Update. Saving...</p>';
+	}
+
+	$New = '<?php $CurrentHash = "'.$GlobalHash.'"; ?>'.$New;
+	$New = str_replace('?><?php',PHP_EOL,$New);
+	$Save = file_put_contents('index.php',$New);
+
+	if($Save==false){
+		echo '<p>Unable to save update! Check permissions?</p>';
+	}else{
+		echo '<p>Update complete!</p><p><a href="./">Back to Home</a></p>';
+	}
+	exit;
+}
+
+switch($_GET['fetch']){
+	case 'uptime':
+		die(shell_exec('uptime'));
+	case 'motd':
+		die(file_get_contents('/etc/motd'));
+	case 'df':
+		passthru('df -h');
+		exit;
+	case 'top':
+		 passthru('/usr/bin/top -b -n 1');
+		exit;
+	case 'update-vps-home':
+		$GlobalHash = gitGlobalHash();
+		if(
+			(!(isset($CurrentHash)))||
+			(!($GlobalHash==$CurrentHash))
+		){
+			echo '<h2><a href="./?update">Updates Available!</a></h2>';
+		}
+		break;
+	case 'backups':
+		die(shell_exec('du -sh /var/www/backups/*'));
+	case 'free-space-error':
+		if(disk_free_space('/')<(1e+9)){
+			echo '<h2 class="warning">LOW DISK SPACE</h2>';
+		}
+		exit;
+		
+}
+
 ?><!DOCTYPE html>
 <html>
 
@@ -87,44 +139,8 @@ function gitGlobalHash(){
 	<h1<?php if(isset($CurrentHash)){echo ' title="Version: '.$CurrentHash.'"';} ?>><?php echo file_get_contents('/etc/hostname'); ?> (<?php echo $_SERVER['SERVER_ADDR']; ?>)</h1>
 	
 	<div class="col-xs-12">
-	<?php 
-	
-		if(disk_free_space('/')<(1e+9)){
-			echo '<h2 class="warning">LOW DISK SPACE</h2>';
-		}
-		
-		$GlobalHash = gitGlobalHash();
-		
-		if(isset($_GET['update'])){
-			echo '<h2>Attempting to update VPS-Home...</h2>';
-			//echo exec("wget https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php -O index.php");
-			$New = file_get_contents('https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php');
-			if($New==false){
-				echo '<p>Unable to fetch update! Check connection?</p>';
-			}else{
-				echo '<p>Fetched Update. Saving...</p>';
-			}
-			
-			$New = '<?php $CurrentHash = "'.$GlobalHash.'"; ?>'.$New;
-			$New = str_replace('?><?php',PHP_EOL,$New);
-			$Save = file_put_contents('index.php',$New);
-			
-			if($Save==false){
-				echo '<p>Unable to save update! Check permissions?</p>';
-			}else{
-				echo '<p>Update complete!</p><p><a href="./">Back to Home</a></p>';
-			}
-			exit;
-		}else{
-			if(
-				(!(isset($CurrentHash)))||
-				(!($GlobalHash==$CurrentHash))
-			){
-				echo '<h2><a href="./?update">Updates Available!</a></h2>';
-			}
-		}
-		
-	?>
+		<div class="fetch" data-uri="./?fetch=disk-space-error"><?php /*if(disk_free_space('/')<(1e+9)){echo '<h2 class="warning">LOW DISK SPACE</h2>';} */ ?></div>
+		<div class="fetch" data-uri="./?fetch=update-vps-home"></div>
 	</div>
 	<hr>
 	<div class="col-md-6 col-sm-12 col-xs-12">
@@ -183,22 +199,42 @@ function gitGlobalHash(){
 		?></pre>
 
 		<h2>Backups</h2>
-		<pre><?php echo shell_exec('du -sh /var/www/backups/*');?></pre>
+		<pre class="fetch" data-uri="./?fetch=backups"><?php /* echo shell_exec('du -sh /var/www/backups/*'); */ ?></pre>
 		
 	</div>
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		
 		<h2>Uptime</h2>
-		<pre><?php echo shell_exec('uptime'); ?></pre>
+		<pre class="fetch" data-uri="./?fetch=uptime"><?php /* shell_exec('uptime') */ ?></pre>
 		<h2>/etc/motd:</h2>
-		<pre><?php echo file_get_contents('/etc/motd'); ?></pre>
+		<pre class="fetch" data-uri="./?fetch=motd"><?php /*echo file_get_contents('/etc/motd');*/ ?></pre>
 		<h2>df -h</h2>
-		<pre><?php passthru('df -h'); ?></pre>
+		<pre class="fetch" data-uri="./?fetch=df"><?php /* passthru('df -h'); */ ?></pre>
 		<h2>Top</h2>
-                <pre><?php passthru('/usr/bin/top -b -n 1'); ?></pre>
+		<pre class="fetch" data-uri="./?fetch=top"><?php /* passthru('/usr/bin/top -b -n 1'); */ ?></pre>
 		
 	</div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js" integrity="sha384-3ceskX3iaEnIogmQchP8opvBy3Mi7Ce34nWjpBIwVTHfGYWQS9jwHDVRnpKKHJg7" crossorigin="anonymous"></script>
+
+<script>
+	function LoadTools(){
+		$('.fetch').each( function( index, listItem ) {
+
+			var uri = $(this).data('uri');
+
+			var jqxhr = $.get(uri, function() {
+				$("ul[data-uri='"+uri+"']").html(data);
+			})
+			.fail(function(){
+				$("ul[data-uri='"+uri+"']").html('<h1>Error</h1>');
+			});
+
+		});
+	}
+</script>
+
 </body>
 
 </html>
