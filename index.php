@@ -159,7 +159,7 @@ if(isset($_GET['fetch'])){
 	<h1<?php if(isset($CurrentHash)){echo ' title="Version: '.$CurrentHash.'"';} ?>><?php echo file_get_contents('/etc/hostname'); ?> (<?php echo $_SERVER['SERVER_ADDR']; ?>)</h1>
 	
 	<div class="col-xs-12">
-		<div class="fetch" data-uri="./?fetch=free-space-error"><?php /*if(disk_free_space('/')<(1e+9)){echo '<h2 class="warning">LOW DISK SPACE</h2>';} */ ?></div>
+		<div class="fetch" data-uri="./?fetch=free-space-error"></div>
 		<div class="fetch" data-uri="./?fetch=update-vps-home"></div>
 	</div>
 	<hr>
@@ -196,42 +196,24 @@ if(isset($_GET['fetch'])){
 
 		<h2>Directory Sizes</h2>
 		<pre><?php echo shell_exec('du -sh /var/www/*');?></pre>
-		
-		<h2>Webs</h2>
-		<pre class="fetch" data-uri="./?fetch=webs"><?php 
-		  /* $Lines = shell_exec('du -sh /var/www/webs/*');
-		  $Lines = explode(PHP_EOL,$Lines);
-		  foreach($Lines as $Line){
-			$Link = stristr($Line,'/var/www/webs/');
-			$Link = substr($Link,14);
-			echo '<p>';
-			$IP = gethostbyname($Link);
-			if(
-				$IP==$_SERVER['SERVER_ADDR']||
-				$IP=='127.0.1.1'||
-				$IP=='127.0.0.1'
-			){$Local = true;}else{$Local = false;}
-			if(!($Local)){echo '<strike>';}
-			if(!($Local)){echo '<span title="'.$Link.' resolves to '.$IP.'.'.PHP_EOL.'This does not match local IP of '.$_SERVER['SERVER_ADDR'].'">';}
-			echo '<a href="//'.$Link.'" target="_blank">'.$Line.'</a></p>'.PHP_EOL;
-			if(!($Local)){echo '</span></strike>';}
-		  } */
-		?></pre>
 
 		<h2>Backups</h2>
-		<pre class="fetch" data-uri="./?fetch=backups"><?php /* echo shell_exec('du -sh /var/www/backups/*'); */ ?></pre>
+		<pre class="fetch" data-uri="./?fetch=backups"></pre>
+		
+		<h2>Webs</h2>
+		<pre class="fetch" data-uri="./?fetch=webs"></pre>
 		
 	</div>
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		
 		<h2>Uptime</h2>
-		<pre class="fetch" data-uri="./?fetch=uptime"><?php /* shell_exec('uptime') */ ?></pre>
+		<pre class="fetch" data-uri="./?fetch=uptime"></pre>
 		<h2>/etc/motd:</h2>
-		<pre class="fetch" data-uri="./?fetch=motd"><?php /*echo file_get_contents('/etc/motd');*/ ?></pre>
+		<pre class="fetch" data-uri="./?fetch=motd"></pre>
 		<h2>df -h</h2>
-		<pre class="fetch" data-uri="./?fetch=df"><?php /* passthru('df -h'); */ ?></pre>
+		<pre class="fetch" data-uri="./?fetch=df"></pre>
 		<h2>Top</h2>
-		<pre class="fetch" data-uri="./?fetch=top"><?php /* passthru('/usr/bin/top -b -n 1'); */ ?></pre>
+		<pre class="fetch" data-uri="./?fetch=top"></pre>
 		
 	</div>
 </div>
