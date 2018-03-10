@@ -245,11 +245,11 @@ if(isset($_GET['fetch'])){
 			
 			$(this).html('Loading <a href="'+uri+'">'+uri+'</a>...');
 			
-			var jqxhr = $.get(uri, function(data) {
-				$("ul[data-uri='"+uri+"']").html(data);
+			$.get(uri, function(data){
+				$("*[data-uri='"+uri+"']").html(data);
 			})
 			.fail(function(data){
-				$("ul[data-uri='"+uri+"']").html('<h1>Error</h1>');
+				$("*[data-uri='"+uri+"']").html('<h1>Error</h1>');
 			});
 
 		});
