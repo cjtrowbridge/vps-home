@@ -243,10 +243,10 @@ if(isset($_GET['fetch'])){
 
 			var uri = $(this).data('uri');
 
-			var jqxhr = $.get(uri, function() {
+			var jqxhr = $.get(uri, function(data) {
 				$("ul[data-uri='"+uri+"']").html(data);
 			})
-			.fail(function(){
+			.fail(function(data){
 				$("ul[data-uri='"+uri+"']").html('<h1>Error</h1>');
 			});
 
