@@ -112,7 +112,7 @@ if(isset($_GET['fetch'])){
 			){
 				echo '<h2><a href="./?update">Updates Available!</a></h2>';
 			}
-			break;
+			exit;
 		case 'backups':
 			die(shell_exec('du -sh /var/www/backups/*'));
 		case 'free-space-error':
