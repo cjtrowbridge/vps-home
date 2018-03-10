@@ -240,7 +240,9 @@ if(isset($_GET['fetch'])){
 <script>
 	function LoadTools(){
 		$('.fetch').each( function( index, listItem ) {
-
+			
+			$(this).html('Loading...');
+			
 			var uri = $(this).data('uri');
 
 			var jqxhr = $.get(uri, function(data) {
