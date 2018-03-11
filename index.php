@@ -213,8 +213,6 @@ if(isset($_GET['fetch'])){
 		
 		<h2>Uptime</h2>
 		<pre class="fetch" data-uri="./?fetch=uptime"></pre>
-		<h2>/etc/motd:</h2>
-		<pre class="fetch" data-uri="./?fetch=motd"></pre>
 		<h2>df -h</h2>
 		<pre class="fetch" data-uri="./?fetch=df"></pre>
 		<h2>Top</h2>
