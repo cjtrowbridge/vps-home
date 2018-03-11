@@ -11,7 +11,7 @@ if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] !== 'on'){
   exit();
 }
 
-function FetchURL($URL, $Method = 'GET', $Arguments = false,$Authorization = false,$UserAgent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13',$OtherHeaders = false){
+function FetchURL($URL, $Method = 'GET', $Arguments = false,$Authorization = false,$UserAgent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13',$OtherHeaders = false,$ForceNoCache = true){
   
   if($URL==''){
     return false;
@@ -23,6 +23,9 @@ function FetchURL($URL, $Method = 'GET', $Arguments = false,$Authorization = fal
   //Initialize Arguments array if null
   if($Arguments==false){
     $Arguments=array();
+  }
+  if($ForceNoCache){
+    $Arguments['cache']=md5(uniqid);
   }
   //Set up cURL  
   $cURL = curl_init();
