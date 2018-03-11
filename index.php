@@ -162,7 +162,7 @@ if(isset($_GET['fetch'])){
 <body>
 <div class="container-fluid">
 	<h1<?php if(isset($CurrentHash)){echo ' title="Version: '.$CurrentHash.'"';} ?>><?php echo file_get_contents('/etc/hostname'); ?> (<?php echo $_SERVER['SERVER_ADDR']; ?>)</h1>
-	
+	<span class="fetch" data-uri="./?fetch=uptime"></span>
 	<div class="col-xs-12">
 		<div class="fetch" data-uri="./?fetch=free-space-error"></div>
 		<div class="fetch" data-uri="./?fetch=update-vps-home"></div>
@@ -211,8 +211,6 @@ if(isset($_GET['fetch'])){
 	</div>
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		
-		<h2>Uptime</h2>
-		<pre class="fetch" data-uri="./?fetch=uptime"></pre>
 		<h2>df -h</h2>
 		<pre class="fetch" data-uri="./?fetch=df"></pre>
 		<h2>Top</h2>
