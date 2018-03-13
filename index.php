@@ -25,7 +25,7 @@ function FetchURL($URL, $Method = 'GET', $Arguments = false,$Authorization = fal
     $Arguments=array();
   }
   if($ForceNoCache){
-    $Arguments['cache']=md5(uniqid);
+    $Arguments['cache']=md5(uniqid());
   }
   //Set up cURL  
   $cURL = curl_init();
