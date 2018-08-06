@@ -126,7 +126,7 @@ if(isset($_GET['fetch'])){
 					if($dir != "." && $dir != ".." && is_dir($dir)){
 						echo shell_exec('du -sh /var/www/backups/'.$dir.'/*');
 					}else{
-						echo "!--Skipping ".$dir."-->";
+						echo "<!--Skipping ".$dir."-->".PHP_EOL;
 					}
 				}
 			}else{
