@@ -123,9 +123,13 @@ if(isset($_GET['fetch'])){
 			if($handle = opendir('/var/www/backups')){
 				while (false !== ($dir = readdir($handle))){
 					if($dir != "." && $dir != ".." && is_dir($dir)){
-						echo (shell_exec('du -sh /var/www/backups/'.$dir.'/*'));
+						echo shell_exec('du -sh /var/www/backups/'.$dir.'/*');
+					}else{
+						echo "!--Skipping ".$dir."-->";
 					}
 				}
+			}else{
+				die('Unable to open /var/www/backups);
 			}
 			exit;
 		case 'free-space-error':
