@@ -120,6 +120,7 @@ if(isset($_GET['fetch'])){
 			}
 			exit;
 		case 'backups':
+			echo '<!--Opening Backups Dir: /var/www/backups-->'.PHP_EOL;
 			if($handle = opendir('/var/www/backups')){
 				while (false !== ($dir = readdir($handle))){
 					if($dir != "." && $dir != ".." && is_dir($dir)){
