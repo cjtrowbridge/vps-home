@@ -120,7 +120,14 @@ if(isset($_GET['fetch'])){
 			}
 			exit;
 		case 'backups':
-			die(shell_exec('du -sh /var/www/backups/*'));
+			if($handle = opendir('/var/www/backups')){
+				while (false !== ($dir = readdir($handle))){
+					if($dir != "." && $dir != ".." && is_dir($dir)){
+						echo (shell_exec('du -sh /var/www/backups/'.$dir.'/*'));
+					}
+				}
+			}
+			exit;
 		case 'free-space-error':
 			if(disk_free_space('/')<(1e+9)){
 				echo '<h2 class="warning">LOW DISK SPACE</h2>';
