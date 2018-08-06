@@ -120,18 +120,13 @@ if(isset($_GET['fetch'])){
 			}
 			exit;
 		case 'backups':
-			echo '<!--Opening Backups Dir: /var/www/backups-->'.PHP_EOL;
 			if($handle = opendir('/var/www/backups')){
 				while (false !== ($dir = readdir($handle))){
 					if($dir == 'mysql' || $dir == 'www'){
 						echo $dir.PHP_EOL;
 						echo shell_exec('du -sh /var/www/backups/'.$dir.'/*');
-					}else{
-						echo "<!--Skipping ".$dir."-->".PHP_EOL;
 					}
 				}
-			}else{
-				die('Unable to open /var/www/backups');
 			}
 			exit;
 		case 'free-space-error':
