@@ -80,7 +80,7 @@ if(isset($_GET['update'])){
 	$GlobalHash = gitGlobalHash();
 	echo '<h2>Attempting to update VPS-Home...</h2>';
 	//echo exec("wget https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php -O index.php");
-	$New = file_get_contents('https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php');
+	$New = file_get_contents('https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php?'.uniqid());
 	if($New==false){
 		echo '<p>Unable to fetch update! Check connection?</p>';
 	}else{
