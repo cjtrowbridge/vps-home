@@ -123,6 +123,7 @@ if(isset($_GET['fetch'])){
 			echo '<!--Opening Backups Dir: /var/www/backups-->'.PHP_EOL;
 			if($handle = opendir('/var/www/backups')){
 				while (false !== ($dir = readdir($handle))){
+					echo $dir.PHP_EOL;
 					if($dir != "." && $dir != ".." && $dir != ".sync"){
 						echo shell_exec('du -sh /var/www/backups/'.$dir.'/*');
 					}else{
