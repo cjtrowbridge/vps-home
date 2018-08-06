@@ -130,7 +130,7 @@ if(isset($_GET['fetch'])){
 					}
 				}
 			}else{
-				die('Unable to open /var/www/backups);
+				die('Unable to open /var/www/backups');
 			}
 			exit;
 		case 'free-space-error':
