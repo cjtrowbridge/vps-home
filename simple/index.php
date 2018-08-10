@@ -33,7 +33,7 @@ $FileSVG = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.o
 		if($handle = opendir($path)){
 			while(false !== ($entry = readdir($handle))){
 				if(is_dir($path.DIRECTORY_SEPARATOR.$entry)){
-					if(($entry !== '.')&& ($entry!=='..')){
+					if(($entry !== '.')&& ($entry!=='..')&& ($entry!=='index.php')){
 						$directories[$entry]=$path.DIRECTORY_SEPARATOR.$entry;
 					}
 				}else{
