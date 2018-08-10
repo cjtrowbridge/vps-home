@@ -22,10 +22,10 @@ $FileSVG = '<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.o
 </head>
 
 <body>
-<div class="container-fluid">
+<div class="container">
   <div class="row">
 	  <div class="col-xs-12">
-		
+		<h1><?php echo basename(__DIR__); ?></h1>
 		<?php 
 		$path='./';
 		$directories=array();
