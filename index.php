@@ -100,6 +100,8 @@ if(isset($_GET['update'])){
 }
 if(isset($_GET['fetch'])){
 	switch($_GET['fetch']){
+		case 'apache_error_log':
+			die(shell_exec('tail /var/log/apache2/error.log'));
 		case 'uptime':
 			die(shell_exec('uptime'));
 		case 'motd':
@@ -226,6 +228,11 @@ if(isset($_GET['fetch'])){
 		<pre class="fetch" data-uri="./?fetch=df"></pre>
 		<h2>Top</h2>
 		<pre class="fetch" data-uri="./?fetch=top"></pre>
+		
+	</div>
+	<div class="col-xs-12">
+		<h2>tail /var/log/apache2/error.log</h2>
+		<pre class="fetch" data-uri="./?fetch=apache_error_log"></pre>
 		
 	</div>
 </div>
