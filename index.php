@@ -142,7 +142,7 @@ if(isset($_GET['fetch'])){
 		  foreach($Lines as $Line){
 			$Link = stristr($Line,'/var/www/webs/');
 			$Link = substr($Link,14);
-			echo '<p>';
+			echo '<div>';
 			$IP = gethostbyname($Link);
 			if(
 				$IP==$_SERVER['SERVER_ADDR']||
@@ -151,7 +151,7 @@ if(isset($_GET['fetch'])){
 			){$Local = true;}else{$Local = false;}
 			if(!($Local)){echo '<strike>';}
 			if(!($Local)){echo '<span title="'.$Link.' resolves to '.$IP.'.'.PHP_EOL.'This does not match local IP of '.$_SERVER['SERVER_ADDR'].'">';}
-			echo '<a href="//'.$Link.'" target="_blank">'.$Line.'</a></p>'.PHP_EOL;
+			echo '<a href="//'.$Link.'" target="_blank">'.$Line.'</a></div>'.PHP_EOL;
 			if(!($Local)){echo '</span></strike>';}
 		  }
 			exit;
