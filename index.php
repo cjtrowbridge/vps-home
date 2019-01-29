@@ -239,6 +239,9 @@ if(isset($_GET['fetch'])){
 		<h2>Webs</h2>
 		<pre class="fetch" data-uri="./?fetch=webs"></pre>
 		
+		<h2>Large Files (Over 10MB)</h2>
+		<pre class="fetch" data-uri="./?fetch=large_files"></pre>
+		
 	</div>
 	<div class="col-md-6 col-sm-12 col-xs-12">
 		
@@ -247,10 +250,6 @@ if(isset($_GET['fetch'])){
 		<h2>Top</h2>
 		<pre class="fetch" data-uri="./?fetch=top"></pre>
 		
-	</div>
-	<div class="col-xs-12">
-		<h2>Large Files (Over 10MB)</h2>
-		<pre class="fetch" data-uri="./?fetch=large_files"></pre>
 	</div>
 </div>
 
