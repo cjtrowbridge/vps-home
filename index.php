@@ -249,7 +249,7 @@ function ListFilesLargerThan($Megabytes, $LocalPrefix){
 		<h2>Webs</h2>
 		<pre class="fetch" data-uri="./?fetch=webs"></pre>
 		
-		<h2>Large Files (Over 10MB)</h2>
+		<h2>Large Files</h2>
 		<pre class="fetch" data-uri="./?fetch=large_files"></pre>
 		
 	</div>
