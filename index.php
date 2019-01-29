@@ -155,6 +155,16 @@ if(isset($_GET['fetch'])){
 			if(!($Local)){echo '</span></strike>';}
 		  }
 			exit;
+		case 'large_files':
+			$LocalPrefix = '/var/www/webs/';
+			$Files = shell_exec('find "'.$LocalPrefix.'" -type f -size +50M');
+			$Files = explode(PHP_EOL, $Files);
+			foreach($Files as $File){
+			  $URL = 'https://'.substr($File,strlen($LocalPrefix));
+			  if(strlen(trim($File))>0){
+			    echo 'rm "<a href="'.$URL.'">'.$File.'</a>"<br>'.PHP_EOL;
+			  }
+			}
 		case 'dirs':
 			die(shell_exec('du -sh /var/www/*'));
 	}
@@ -231,9 +241,8 @@ if(isset($_GET['fetch'])){
 		
 	</div>
 	<div class="col-xs-12">
-		<h2>tail /var/log/apache2/error.log</h2>
-		<pre class="fetch" data-uri="./?fetch=apache_error_log"></pre>
-		
+		<h2>Large Files (Over 50MB)</h2>
+		<pre class="fetch" data-uri="./?fetch=large_files"></pre>
 	</div>
 </div>
 
