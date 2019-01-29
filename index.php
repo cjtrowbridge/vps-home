@@ -159,7 +159,7 @@ if(isset($_GET['fetch'])){
 			$LocalPrefix = '/var/www/webs/';
 			ListFilesLargerThan(100, $LocalPrefix);
 			ListFilesLargerThan(10, $LocalPrefix);
-			ListFilesLargerThan(1, $LocalPrefix);
+			//ListFilesLargerThan(1, $LocalPrefix);
 			exit;
 		case 'dirs':
 			die(shell_exec('du -sh /var/www/*'));
