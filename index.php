@@ -158,7 +158,7 @@ if(isset($_GET['fetch'])){
 		case 'large_files':
 			$LocalPrefix = '/var/www/webs/';
 			$Command = 'find "'.$LocalPrefix.'" -type f -size +50M';
-			echo $Command;
+			echo $Command.PHP_EOL;
 			$Files = shell_exec($Command);
 			$Files = explode(PHP_EOL, $Files);
 			foreach($Files as $File){
