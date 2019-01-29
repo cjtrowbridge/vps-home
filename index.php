@@ -157,26 +157,36 @@ if(isset($_GET['fetch'])){
 			exit;
 		case 'large_files':
 			$LocalPrefix = '/var/www/webs/';
-			$Command = 'find "'.$LocalPrefix.'" -type f -size +10M';
-			echo $Command.PHP_EOL.PHP_EOL;
-			$Files = shell_exec($Command);
-			$Files = explode(PHP_EOL, $Files);
-			$Counter = 0;
-			foreach($Files as $File){
-			  $URL = 'https://'.substr($File,strlen($LocalPrefix));
-			  if(strlen(trim($File))>0){
-			    echo 'rm "<a href="'.$URL.'">'.$File.'</a>"<br>'.PHP_EOL;
-			    $Counter++;
-			  }
-			}
-			if($Counter==0){
-				echo 'None Found!';
-			}
+			ListFilesLargerThan(100, $LocalPrefix);
+			ListFilesLargerThan(10, $LocalPrefix);
+			ListFilesLargerThan(1, $LocalPrefix);
 			exit;
 		case 'dirs':
 			die(shell_exec('du -sh /var/www/*'));
 	}
 	die('Unknown Error at Path: /?fetch='.$_GET['fetch']);
+}
+
+function ListFilesLargerThan($Megabytes, $LocalPrefix){
+	if(intval($Megabytes==0)){die('Invalid Size');}
+	if(!(file_exists($LocalPrefix))){die('Invalid LocalPrefix');}
+	$Command = 'find "'.$LocalPrefix.'" -type f -size +'.$Megabytes.'M';
+	echo $Command.PHP_EOL.PHP_EOL;
+	$Files = shell_exec($Command);
+	$Files = explode(PHP_EOL, $Files);
+	$Counter = 0;
+	foreach($Files as $File){
+	  $URL = 'https://'.substr($File,strlen($LocalPrefix));
+	  if(strlen(trim($File))>0){
+	    echo 'rm "<a href="'.$URL.'">'.$File.'</a>"<br>'.PHP_EOL;
+	    $Counter++;
+	  }
+	}
+	echo PHP_EOL;
+	if($Counter==0){
+	  echo 'None Found!'.PHP_EOL.PHP_EOL;
+	}		
+	return $Counter;
 }
 
 ?><!DOCTYPE html>
