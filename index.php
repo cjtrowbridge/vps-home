@@ -157,15 +157,20 @@ if(isset($_GET['fetch'])){
 			exit;
 		case 'large_files':
 			$LocalPrefix = '/var/www/webs/';
-			$Command = 'find "'.$LocalPrefix.'" -type f -size +50M';
-			echo $Command.PHP_EOL;
+			$Command = 'find "'.$LocalPrefix.'" -type f -size +10M';
+			echo $Command.PHP_EOL.PHP_EOL;
 			$Files = shell_exec($Command);
 			$Files = explode(PHP_EOL, $Files);
+			$Counter = 0;
 			foreach($Files as $File){
 			  $URL = 'https://'.substr($File,strlen($LocalPrefix));
 			  if(strlen(trim($File))>0){
 			    echo 'rm "<a href="'.$URL.'">'.$File.'</a>"<br>'.PHP_EOL;
+			    $Counter++;
 			  }
+			}
+			if($Counter==0){
+				echo 'None Found!';
 			}
 		case 'dirs':
 			die(shell_exec('du -sh /var/www/*'));
@@ -243,7 +248,7 @@ if(isset($_GET['fetch'])){
 		
 	</div>
 	<div class="col-xs-12">
-		<h2>Large Files (Over 50MB)</h2>
+		<h2>Large Files (Over 10MB)</h2>
 		<pre class="fetch" data-uri="./?fetch=large_files"></pre>
 	</div>
 </div>
