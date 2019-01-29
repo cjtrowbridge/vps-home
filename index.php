@@ -171,7 +171,7 @@ function ListFilesLargerThan($Megabytes, $LocalPrefix){
 	if(intval($Megabytes==0)){die('Invalid Size');}
 	if(!(file_exists($LocalPrefix))){die('Invalid LocalPrefix');}
 	$Command = 'find "'.$LocalPrefix.'" -type f -size +'.$Megabytes.'M';
-	echo $Command.PHP_EOL.PHP_EOL;
+	echo $Command.PHP_EOL;
 	$Files = shell_exec($Command);
 	$Files = explode(PHP_EOL, $Files);
 	$Counter = 0;
