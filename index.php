@@ -172,7 +172,7 @@ if(isset($_GET['fetch'])){
 			if($Counter==0){
 				echo 'None Found!';
 			}
-			break;
+			exit;
 		case 'dirs':
 			die(shell_exec('du -sh /var/www/*'));
 	}
