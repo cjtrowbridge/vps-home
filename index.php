@@ -133,7 +133,7 @@ if(isset($_GET['fetch'])){
 						))
 					  ){
 						echo $dir.PHP_EOL;
-						echo shell_exec('du -sh /var/www/backups/'.$dir.'/*');
+						echo shell_exec('du -sh /var/www/backups/'.$dir.'/*').PHP_EOL;
 					}
 				}
 			}
