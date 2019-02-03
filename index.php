@@ -125,7 +125,7 @@ if(isset($_GET['fetch'])){
 			if($handle = opendir('/var/www/backups')){
 				while (false !== ($dir = readdir($handle))){
 					if(
-						is_dir($dir)&&
+						is_dir('/var/www/backups/'.$dir) &&
 						(!(
 							$dir=='.'||
 							$dir=='..'
@@ -144,22 +144,22 @@ if(isset($_GET['fetch'])){
 			exit;
 		case 'webs':
 			$Lines = shell_exec('du -sh /var/www/webs/*');
-		  $Lines = explode(PHP_EOL,$Lines);
-		  foreach($Lines as $Line){
-			$Link = stristr($Line,'/var/www/webs/');
-			$Link = substr($Link,14);
-			echo '<div>';
-			$IP = gethostbyname($Link);
-			if(
-				$IP==$_SERVER['SERVER_ADDR']||
-				$IP=='127.0.1.1'||
-				$IP=='127.0.0.1'
-			){$Local = true;}else{$Local = false;}
-			if(!($Local)){echo '<strike>';}
-			if(!($Local)){echo '<span title="'.$Link.' resolves to '.$IP.'.'.PHP_EOL.'This does not match local IP of '.$_SERVER['SERVER_ADDR'].'">';}
-			echo '<a href="//'.$Link.'" target="_blank">'.$Line.'</a></div>'.PHP_EOL;
-			if(!($Local)){echo '</span></strike>';}
-		  }
+			  $Lines = explode(PHP_EOL,$Lines);
+			  foreach($Lines as $Line){
+				$Link = stristr($Line,'/var/www/webs/');
+				$Link = substr($Link,14);
+				echo '<div>';
+				$IP = gethostbyname($Link);
+				if(
+					$IP==$_SERVER['SERVER_ADDR']||
+					$IP=='127.0.1.1'||
+					$IP=='127.0.0.1'
+				){$Local = true;}else{$Local = false;}
+				if(!($Local)){echo '<strike>';}
+				if(!($Local)){echo '<span title="'.$Link.' resolves to '.$IP.'.'.PHP_EOL.'This does not match local IP of '.$_SERVER['SERVER_ADDR'].'">';}
+				echo '<a href="//'.$Link.'" target="_blank">'.$Line.'</a></div>'.PHP_EOL;
+				if(!($Local)){echo '</span></strike>';}
+			  }
 			exit;
 		case 'large_files':
 			$LocalPrefix = '/var/www/webs/';
