@@ -124,8 +124,9 @@ if(isset($_GET['fetch'])){
 		case 'backups':
 			if($handle = opendir('/var/www/backups')){
 				while (false !== ($dir = readdir($handle))){
+					$Path = '/var/www/backups/'.$dir;
 					if(
-						is_dir('/var/www/backups/'.$dir) &&
+						is_dir($Path) &&
 						(!(
 							$dir=='.'||
 							$dir=='..'
@@ -133,6 +134,8 @@ if(isset($_GET['fetch'])){
 					  ){
 						echo $dir.PHP_EOL;
 						echo shell_exec('du -sh /var/www/backups/'.$dir.'/*');
+					}else{
+						echo '<>'.$Path;
 					}
 				}
 			}
