@@ -228,7 +228,7 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 		
 		$Skip = false;
 		foreach($DirectoriesNotToExpandByDefault as $Ignore){
-			if( strpos(strtolower($Ignore), strtolower($name) ) !== false){
+			if( strpos(strtolower($name),strtolower($Ignore) ) !== false){
 				$Skip = true;
 			}
 		}
