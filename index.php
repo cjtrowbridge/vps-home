@@ -264,7 +264,6 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 		<div class="fetch" data-uri="./?fetch=free-space-error"></div>
 		<div class="fetch" data-uri="./?fetch=update-vps-home"></div>
 	</div>
-	<hr>
 	
 <ul class="nav nav-tabs" id="myTab" role="tablist">
   <li class="nav-item">
