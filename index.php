@@ -199,7 +199,9 @@ function ListFilesLargerThan($Megabytes, $LocalPrefix){
 
 function ShowDirectoryTree($Root,$CurrentPath=''){
 	$DirectoriesNotToExpandByDefault=array(
-		'phpmyadmin'
+		'phpmyadmin',
+		'.sync',
+		'webs'
 	);
 	$Root = rtrim($Root,"/");
 	$CurrentPath = trim($CurrentPath,"/");
