@@ -197,6 +197,10 @@ function ListFilesLargerThan($Megabytes, $LocalPrefix){
 }
 
 function ShowDirectoryTree($Root,$CurrentPath=''){
+	
+	$Root = rtrim($Root,"/");
+	$CurrentPath = trim($CurrentPath,"/");
+		
 	$directories=array();
 	$files=array();
 	echo '<ul class="tree">';
@@ -216,7 +220,7 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 	asort($files);
 	foreach($directories as $name => $directory){
 		echo '<li><a href="'.$name.'"><img src="/icons/folder.gif" alt="[DIR]"> '.$name.'</a>';
-		$RecursivePath.=$name.DIRECTORY_SEPARATOR;
+		$RecursivePath=$CurrentPath.DIRECTORY_SEPARATOR.$name;
 		ShowDirectoryTree($Root,$RecursivePath);
 		echo '</li>';
 	}
