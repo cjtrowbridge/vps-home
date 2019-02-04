@@ -226,7 +226,7 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 	foreach($directories as $name => $directory){
 		echo '<li><a href="'.$name.'"><img src="/icons/folder.gif" alt="[DIR]"> '.$name.'</a>';
 		
-		$Skip = true;
+		$Skip = false;
 		foreach($DirectoriesNotToExpandByDefault as $Ignore){
 			if( strpos(strtolower($Ignore), strtolower($name) ) !== false){
 				$Skip = true;
@@ -234,8 +234,8 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 		}
 		if(!($Skip)){
 			$RecursivePath=$CurrentPath.DIRECTORY_SEPARATOR.$name;
+			ShowDirectoryTree($Root,$RecursivePath);
 		}
-		ShowDirectoryTree($Root,$RecursivePath);
 		echo '</li>';
 	}
 	foreach($files as $name => $file){
