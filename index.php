@@ -196,11 +196,11 @@ function ListFilesLargerThan($Megabytes, $LocalPrefix){
 	return $Counter;
 }
 
-$DirectoriesNotToExpandByDefault=array(
-  'phpmyadmin'
-);
+
 function ShowDirectoryTree($Root,$CurrentPath=''){
-	
+	$DirectoriesNotToExpandByDefault=array(
+		'phpmyadmin'
+	);
 	$Root = rtrim($Root,"/");
 	$CurrentPath = trim($CurrentPath,"/");
 		
