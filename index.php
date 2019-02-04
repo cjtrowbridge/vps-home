@@ -94,7 +94,7 @@ function UpdateNow(){
 	if($Save==false){
 		echo 'Update Failed.';
 	}else{
-		echo 'Done!';
+		echo 'Done! (Refresh to see changes.)';
 	}
 	exit;
 }
