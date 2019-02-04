@@ -76,15 +76,15 @@ function gitGlobalHash(){
   return trim($Hash['object']['sha']);
 }
 
-if(isset($_GET['update'])){
+function Update(){
 	$GlobalHash = gitGlobalHash();
-	echo '<h2>Attempting to update VPS-Home...</h2>';
+	echo 'Updating... ';
 	//echo exec("wget https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php -O index.php");
 	$New = file_get_contents('https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php?'.uniqid());
 	if($New==false){
-		echo '<p>Unable to fetch update! Check connection?</p>';
+		//echo '<p>Unable to fetch update! Check connection?</p>';
 	}else{
-		echo '<p>Fetched Update. Saving...</p>';
+		//echo '<p>Fetched Update. Saving...</p>';
 	}
 
 	$New = '<?php $CurrentHash = "'.$GlobalHash.'"; ?>'.$New;
@@ -92,11 +92,12 @@ if(isset($_GET['update'])){
 	$Save = file_put_contents('index.php',$New);
 
 	if($Save==false){
-		echo '<p>Unable to save update! Check permissions?</p>';
+		echo 'Update Failed.';
 	}else{
-		echo '<p>Update complete!</p><p><a href="./">Back to Home</a></p>';
+		echo 'Done!';
 	}
 	exit;
+}
 }
 if(isset($_GET['fetch'])){
 	switch($_GET['fetch']){
@@ -118,7 +119,8 @@ if(isset($_GET['fetch'])){
 				(!(isset($CurrentHash)))||
 				(!($GlobalHash==$CurrentHash))
 			){
-				echo '<h2><a href="./?update">Updates Available!</a></h2>';
+				Update();
+				exit;
 			}
 			exit;
 		case 'backups':
