@@ -216,7 +216,7 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 	asort($files);
 	foreach($directories as $name => $directory){
 		echo '<li><a href="'.$name.'"><img src="/icons/folder.gif" alt="[DIR]"> '.$name.'</a>';
-		$CurrentPath = $Root.$CurrentPath.$name;
+		$CurrentPath = $CurrentPath.DIRECTORY_SEPARATOR.$name;
 		ShowDirectoryTree($Root,$CurrentPath);
 		echo '</li>';
 	}
