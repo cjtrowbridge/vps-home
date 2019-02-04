@@ -204,10 +204,10 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 		while(false !== ($entry = readdir($handle))){
 			if(is_dir($Root.DIRECTORY_SEPARATOR.$CurrentPath)){
 				if(($entry !== '.')&& ($entry!=='..')){
-					$directories[$entry]=$AbsolutePath.DIRECTORY_SEPARATOR.$entry;
+					$directories[$entry]=$entry;
 				}
 			}else{
-				$files[$entry]=$AbsolutePath.DIRECTORY_SEPARATOR.$entry;
+				$files[$entry]=$entry;
 			}
 		}
 		closedir($handle);
