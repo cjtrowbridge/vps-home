@@ -98,7 +98,6 @@ function UpdateNow(){
 	}
 	exit;
 }
-}
 if(isset($_GET['fetch'])){
 	switch($_GET['fetch']){
 		case 'apache_error_log':
