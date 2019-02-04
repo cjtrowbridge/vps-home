@@ -288,7 +288,7 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 		?>
   </div>
   <div class="tab-pane" id="space" role="tabpanel" aria-labelledby="space-tab">
-    h2>Directory Sizes</h2>
+    <h2>Directory Sizes</h2>
 		<pre class="fetch" data-uri="./?fetch=dirs"></pre>
 
 		<h2>Backups</h2>
