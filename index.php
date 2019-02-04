@@ -196,6 +196,9 @@ function ListFilesLargerThan($Megabytes, $LocalPrefix){
 	return $Counter;
 }
 
+$DirectoriesNotToExpandByDefault=array(
+  'phpmyadmin'
+);
 function ShowDirectoryTree($Root,$CurrentPath=''){
 	
 	$Root = rtrim($Root,"/");
@@ -220,7 +223,16 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 	asort($files);
 	foreach($directories as $name => $directory){
 		echo '<li><a href="'.$name.'"><img src="/icons/folder.gif" alt="[DIR]"> '.$name.'</a>';
-		$RecursivePath=$CurrentPath.DIRECTORY_SEPARATOR.$name;
+		
+		$Skip = false;
+		foreach($DirectoriesNotToExpandByDefault as $Ignore){
+			if( strpos(strtolower($name),strtolower($Ignore) ) !== false){
+				$Skip = true;
+			}
+		}
+		if(!($Skip)){
+			$RecursivePath=$CurrentPath.DIRECTORY_SEPARATOR.$name;
+		}
 		ShowDirectoryTree($Root,$RecursivePath);
 		echo '</li>';
 	}
