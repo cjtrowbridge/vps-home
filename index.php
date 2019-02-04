@@ -76,7 +76,7 @@ function gitGlobalHash(){
   return trim($Hash['object']['sha']);
 }
 
-function Update(){
+function UpdateNow(){
 	$GlobalHash = gitGlobalHash();
 	echo 'Updating... ';
 	//echo exec("wget https://raw.githubusercontent.com/cjtrowbridge/vps-home/master/index.php -O index.php");
@@ -119,8 +119,7 @@ if(isset($_GET['fetch'])){
 				(!(isset($CurrentHash)))||
 				(!($GlobalHash==$CurrentHash))
 			){
-				Update();
-				exit;
+				UpdateNow();
 			}
 			exit;
 		case 'backups':
