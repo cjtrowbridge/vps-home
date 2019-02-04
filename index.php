@@ -206,7 +206,7 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 	echo '<ul class="tree">';
 	if($handle = opendir($Root.DIRECTORY_SEPARATOR.$CurrentPath)){
 		while(false !== ($entry = readdir($handle))){
-			if(is_dir($Root.DIRECTORY_SEPARATOR.$CurrentPath)){
+			if(is_dir($Root.DIRECTORY_SEPARATOR.$CurrentPath.DIRECTORY_SEPARATOR.$entry)){
 				if(($entry !== '.')&& ($entry!=='..')){
 					$directories[$entry]=$entry;
 				}
