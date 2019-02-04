@@ -226,7 +226,7 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 	foreach($directories as $name => $directory){
 		echo '<li><a href="'.$name.'"><img src="/icons/folder.gif" alt="[DIR]"> '.$name.'</a>';
 		
-		$Skip = false;
+		$Skip = true;
 		foreach($DirectoriesNotToExpandByDefault as $Ignore){
 			if( strpos(strtolower($Ignore), strtolower($name) ) !== false){
 				$Skip = true;
