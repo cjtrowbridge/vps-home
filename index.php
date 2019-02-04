@@ -196,6 +196,36 @@ function ListFilesLargerThan($Megabytes, $LocalPrefix){
 	return $Counter;
 }
 
+function ShowDirectoryTree($Root,$CurrentPath=''){
+	$directories=array();
+	$files=array();
+	echo '<ul class="tree">';
+	if($handle = opendir($Root.DIRECTORY_SEPARATOR.$CurrentPath)){
+		while(false !== ($entry = readdir($handle))){
+			if(is_dir($Root.DIRECTORY_SEPARATOR.$CurrentPath)){
+				if(($entry !== '.')&& ($entry!=='..')){
+					$directories[$entry]=$AbsolutePath.DIRECTORY_SEPARATOR.$entry;
+				}
+			}else{
+				$files[$entry]=$AbsolutePath.DIRECTORY_SEPARATOR.$entry;
+			}
+		}
+		closedir($handle);
+	}
+	asort($directories);
+	asort($files);
+	foreach($directories as $name => $directory){
+		echo '<li><a href="'.$name.'"><img src="/icons/folder.gif" alt="[DIR]"> '.$name.'</a>';
+		$CurrentPath = $Root.$CurrentPath.$name;
+		ShowDirectoryTree($Root,$CurrentPath);
+		echo '</li>';
+	}
+	foreach($files as $name => $file){
+		echo '<li><a href="'.$name.'"><img src="/icons/unknown.gif" alt="[DIR]"> '.$name.'</a></li>';
+	}
+	echo '</ul>';
+}
+
 ?><!DOCTYPE html>
 <html>
 
@@ -205,6 +235,7 @@ function ListFilesLargerThan($Megabytes, $LocalPrefix){
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" integrity="sha512-K1qjQ+NcF2TYO/eI3M6v8EiNYZfA95pQumfvcVrTHtwQVDG+aHRqLi/ETn2uB+1JqwYqVG3LIvdm9lj6imS/pQ==" crossorigin="anonymous"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" integrity="sha512-dTfge/zgoMYpP7QbHy4gWMEGsbsdZeCXz7irItjcC3sPUFtf0kuFbDz/ixG7ArTxmDjLXDmezHubeNikyKGVyQ==" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" integrity="sha384-aUGj/X2zp5rLCbBxumKTCw2Z50WgIr1vs/PFN4praOTvYXWlVyh2UtNUU0KAUhAX" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cjtrowbridge.com/projects/simple-tree/simple-tree.css">
 </head>
 
 <body>
@@ -221,29 +252,7 @@ function ListFilesLargerThan($Megabytes, $LocalPrefix){
 		<h2>Directory Listing:</h2>
 		<?php 
 
-		$path='/var/www';
-		$directories=array();
-		$files=array();
-		if($handle = opendir($path)){
-			while(false !== ($entry = readdir($handle))){
-				if(is_dir($path.DIRECTORY_SEPARATOR.$entry)){
-					if(($entry !== '.')&& ($entry!=='..')){
-						$directories[$entry]=$path.DIRECTORY_SEPARATOR.$entry;
-					}
-				}else{
-					$files[$entry]=$path.DIRECTORY_SEPARATOR.$entry;
-				}
-			}
-			closedir($handle);
-		}
-		asort($directories);
-		asort($files);
-		foreach($directories as $name => $directory){
-			echo '<div><a href="'.$name.'"><img src="/icons/folder.gif" alt="[DIR]"> '.$name.'</a><br></div>';
-		}
-		foreach($files as $name => $file){
-			echo '<div><a href="'.$name.'"><img src="/icons/unknown.gif" alt="[DIR]"> '.$name.'</a><br></div>';
-		}
+		ShowDirectoryTree('/var/www');
 
 		?>
 
