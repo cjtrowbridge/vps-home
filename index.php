@@ -201,7 +201,8 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 	$DirectoriesNotToExpandByDefault=array(
 		'phpmyadmin',
 		'.sync',
-		'webs'
+		'webs',
+		'wordpress'
 	);
 	$Root = rtrim($Root,"/");
 	$CurrentPath = trim($CurrentPath,"/");
