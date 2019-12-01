@@ -235,7 +235,7 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 		}
 		if(!($Skip)){
 			$RecursivePath=$CurrentPath.DIRECTORY_SEPARATOR.$name;
-			ShowDirectoryTree($Root,$RecursivePath);
+			//ShowDirectoryTree($Root,$RecursivePath);
 		}
 		echo '</li>';
 	}
