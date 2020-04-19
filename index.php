@@ -259,39 +259,44 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 
 <body>
 <div class="container">
-	<h1<?php if(isset($CurrentHash)){echo ' title="Version: '.$CurrentHash.'"';} ?>><?php echo file_get_contents('/etc/hostname'); ?> (<?php echo $_SERVER['SERVER_ADDR']; ?>)</h1>
-	<span class="fetch" data-uri="./?fetch=uptime"></span>
-	<div class="col-xs-12">
-		<div class="fetch" data-uri="./?fetch=free-space-error"></div>
-		<div class="fetch" data-uri="./?fetch=update-vps-home"></div>
+	<div class="row">
+		<div class="col-xs-12">
+			<h1<?php if(isset($CurrentHash)){echo ' title="Version: '.$CurrentHash.'"';} ?>><?php echo file_get_contents('/etc/hostname'); ?> (<?php echo $_SERVER['SERVER_ADDR']; ?>)</h1>
+			<span class="fetch" data-uri="./?fetch=uptime"></span>
+			<div class="fetch" data-uri="./?fetch=free-space-error"></div>
+			<div class="fetch" data-uri="./?fetch=update-vps-home"></div>
+		</div>
 	</div>
-	
-	<div class="col-xs-12 col-md-6">
-		<h2>Directory Listing:</h2>
-		<?php ShowDirectoryTree('/var/www'); ?>
+	<div class="row">
+		<div class="col-xs-12 col-md-6">
+			<h2>Directory Listing:</h2>
+			<?php ShowDirectoryTree('/var/www'); ?>
+		</div>
+		<div class="col-xs-12 col-md-6">
+			<h2>df -h</h2>
+			<pre class="fetch" data-uri="./?fetch=df"></pre>
+
+
+			<h2>Directory Sizes</h2>
+			<pre class="fetch" data-uri="./?fetch=dirs"></pre>
+
+			<h2>Backup Sizes</h2>
+			<pre class="fetch" data-uri="./?fetch=backups"></pre>
+
+			<h2>Webs</h2>
+			<pre class="fetch" data-uri="./?fetch=webs"></pre>
+
+
+			<h2>Large Files</h2>
+			<pre class="fetch" data-uri="./?fetch=large_files"></pre>
+
+		</div>
 	</div>
-	<div class="col-xs-12 col-md-6">
-		<h2>df -h</h2>
-		<pre class="fetch" data-uri="./?fetch=df"></pre>
-
-
-		<h2>Directory Sizes</h2>
-		<pre class="fetch" data-uri="./?fetch=dirs"></pre>
-
-		<h2>Backup Sizes</h2>
-		<pre class="fetch" data-uri="./?fetch=backups"></pre>
-
-		<h2>Webs</h2>
-		<pre class="fetch" data-uri="./?fetch=webs"></pre>
-
-
-		<h2>Large Files</h2>
-		<pre class="fetch" data-uri="./?fetch=large_files"></pre>
-		
-	</div>
-	<div class="col-xs-12">
-		<h2>Top</h2>
-		<pre class="fetch" data-uri="./?fetch=top"></pre>
+	<div class="row">
+		<div class="col-xs-12">
+			<h2>Top</h2>
+			<pre class="fetch" data-uri="./?fetch=top"></pre>
+		</div>
 	</div>
 </div>
 
