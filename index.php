@@ -266,49 +266,33 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 		<div class="fetch" data-uri="./?fetch=update-vps-home"></div>
 	</div>
 	
-<ul class="nav nav-tabs mt-3" id="myTab" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Files</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="space-tab" data-toggle="tab" href="#space" role="tab" aria-controls="space" aria-selected="false">Space</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="top-tab" data-toggle="tab" href="#top" role="tab" aria-controls="top" aria-selected="false">Top</a>
-  </li>
-</ul>
-
-<div class="tab-content">
-  <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab">
-    <h2>Directory Listing:</h2>
-		<?php 
-
-		ShowDirectoryTree('/var/www');
-
-		?>
-  </div>
-  <div class="tab-pane" id="space" role="tabpanel" aria-labelledby="space-tab">
+	<div class="col-xs-12 col-md-6">
+		<h2>Directory Listing:</h2>
+		<?php ShowDirectoryTree('/var/www'); ?>
+	</div>
+	<div class="col-xs-12 col-md-6">
 		<h2>df -h</h2>
 		<pre class="fetch" data-uri="./?fetch=df"></pre>
-  
-	  
+
+
 		<h2>Directory Sizes</h2>
 		<pre class="fetch" data-uri="./?fetch=dirs"></pre>
 
 		<h2>Backup Sizes</h2>
 		<pre class="fetch" data-uri="./?fetch=backups"></pre>
-		
+
 		<h2>Webs</h2>
 		<pre class="fetch" data-uri="./?fetch=webs"></pre>
-		
-		
+
+
 		<h2>Large Files</h2>
 		<pre class="fetch" data-uri="./?fetch=large_files"></pre>
-  </div>
-  <div class="tab-pane" id="top" role="tabpanel" aria-labelledby="top-tab">
+		
+	</div>
+	<div class="col-xs-12">
 		<h2>Top</h2>
 		<pre class="fetch" data-uri="./?fetch=top"></pre>
-  </div>
+	</div>
 </div>
 
 <script>
