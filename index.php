@@ -260,7 +260,7 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 <body>
 <div class="container">
 	<div class="row">
-		<div class="col-xs-12">
+		<div class="col-12">
 			<h1<?php if(isset($CurrentHash)){echo ' title="Version: '.$CurrentHash.'"';} ?>><?php echo file_get_contents('/etc/hostname'); ?> (<?php echo $_SERVER['SERVER_ADDR']; ?>)</h1>
 			<span class="fetch" data-uri="./?fetch=uptime"></span>
 			<div class="fetch" data-uri="./?fetch=free-space-error"></div>
@@ -268,11 +268,11 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-xs-12 col-md-6">
+		<div class="col-xs-12 col-6">
 			<h2>Directory Listing:</h2>
 			<?php ShowDirectoryTree('/var/www'); ?>
 		</div>
-		<div class="col-xs-12 col-md-6">
+		<div class="col-xs-12 col-6">
 			<h2>df -h</h2>
 			<pre class="fetch" data-uri="./?fetch=df"></pre>
 
@@ -293,7 +293,7 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-xs-12">
+		<div class="col-12">
 			<h2>Top</h2>
 			<pre class="fetch" data-uri="./?fetch=top"></pre>
 		</div>
