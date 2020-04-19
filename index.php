@@ -271,21 +271,28 @@ function ShowDirectoryTree($Root,$CurrentPath=''){
 		<div class="col-xs-12 col-6">
 			<h2>Directory Listing:</h2>
 			<?php ShowDirectoryTree('/var/www'); ?>
+		
 		</div>
 		<div class="col-xs-12 col-6">
+		
 			<h2>df -h</h2>
 			<pre class="fetch" data-uri="./?fetch=df"></pre>
-
 
 			<h2>Directory Sizes</h2>
 			<pre class="fetch" data-uri="./?fetch=dirs"></pre>
 
+		</div>
+		<div class="col-xs-12 col-6">
+			
 			<h2>Backup Sizes</h2>
 			<pre class="fetch" data-uri="./?fetch=backups"></pre>
+			
+		</div>
+		<div class="col-xs-12 col-6">
+		
 
 			<h2>Webs</h2>
 			<pre class="fetch" data-uri="./?fetch=webs"></pre>
-
 
 			<h2>Large Files</h2>
 			<pre class="fetch" data-uri="./?fetch=large_files"></pre>
