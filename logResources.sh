@@ -19,7 +19,7 @@ cpu_percentage=$(top -bn 1 | grep "%Cpu(s)" | awk '{print $2}')
 ram_percentage=$(free | awk '/Mem/{printf("%.2f\n", ($3/$2) * 100)}')
 
 # Get disk usage for the / partition (change /dev/sdXY to match your partition)
-disk_usage=$(df -h | awk '/\/dev\/sdXY/{print $5}' | sed 's/%//')
+disk_usage=$(df -h | awk '$NF=="/"{printf("%s\n", $5)}' | sed 's/%//')
 
 # Get network up/down utilization in MB/sec
 network_up=$(cat /proc/net/dev | awk '/eth0/{print $10/1024/1024}')
