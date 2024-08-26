@@ -1,8 +1,8 @@
 #!/bin/bash
 
-#Ensure script is run as root
-if [ "$EUID" -ne 0 ]
-  then echo "Please run as root"
+# Ensure script is run as root
+if [ "$EUID" -ne 0 ]; then 
+  echo "Please run as root"
   exit
 fi
 
@@ -32,10 +32,6 @@ SQL_PACKAGES="mariadb-server phpmyadmin"
 # Update package lists
 sudo apt-get update
 
-// Install bashtop
-wget http://packages.azlux.fr/debian/pool/main/b/bashtop/bashtop_0.9.25_all.deb
-sudo dpkg -i bashtop_0.9.25_all.deb
-
 # Install common packages
 sudo apt-get install -y $COMMON_PACKAGES
 
@@ -45,14 +41,12 @@ if [[ "$HOSTNAME" != "www-static" ]]; then
     sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
     sudo echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
     sudo apt-get update
-
     sudo apt-get install -y $PHP_PACKAGES
 fi
 
 # Install MariaDB and phpMyAdmin on the SQL server
 if [[ "$HOSTNAME" == "www-sql" ]]; then
     sudo apt-get install -y $SQL_PACKAGES
-
     # Run mysql_secure_installation
     sudo mysql_secure_installation
 fi
@@ -121,9 +115,40 @@ EOT
 
 # Restart Samba service
 sudo systemctl restart smbd && sudo systemctl restart nmbd
+
+# Install and configure Certbot for SSL
 sudo apt install snapd
 sudo snap install core; sudo snap refresh core
-sudo snap install –classic certbot
+sudo snap install --classic certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
-sudo certbot –apache
+sudo certbot --apache
 
+# Replace /etc/apache2/sites-available/000-default.conf
+cat <<EOT | sudo tee /etc/apache2/sites-available/000-default.conf
+<VirtualHost *:80>
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/
+
+        #LogLevel info ssl:warn
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        #Include conf-available/serve-cgi-bin.conf
+
+    <Directory "/var/www/">
+        AuthType Basic
+        AuthName "Restricted Content"
+        AuthUserFile /etc/apache2/.htpasswd
+        Require valid-user
+    </Directory>
+</VirtualHost>
+EOT
+
+# Enable the site and restart Apache
+sudo a2ensite 000-default.conf
+sudo systemctl restart apache2
+
+echo "Setup complete for $HOSTNAME"
