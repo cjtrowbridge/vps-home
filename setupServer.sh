@@ -1,5 +1,11 @@
 #!/bin/bash
 
+#Ensure script is run as root
+if [ "$EUID" -ne 0 ]
+  then echo "Please run as root"
+  exit
+fi
+
 # Prompt for TightVNC username and password
 read -p "Enter the username for TightVNC: " VNC_USER
 read -sp "Enter the password for TightVNC: " VNC_PASS
@@ -10,8 +16,12 @@ read -p "Enter the username for Samba: " SAMBA_USER
 read -sp "Enter the password for Samba: " SAMBA_PASS
 echo
 
+# Install bashtop
+wget http://packages.azlux.fr/debian/pool/main/b/bashtop/bashtop_0.9.25_all.deb
+sudo dpkg -i bashtop_0.9.25_all.deb
+
 # Common packages for all servers
-COMMON_PACKAGES="nload htop bashtop apache2 fail2ban tightvncserver git git-lfs apt-transport-https unattended-upgrades ufw logrotate samba openssh-server"
+COMMON_PACKAGES="nload htop apache2 fail2ban tightvncserver git git-lfs apt-transport-https unattended-upgrades ufw logrotate samba"
 
 # PHP packages for all except www-static
 PHP_PACKAGES="php8.0 php8.0-bcmath php8.0-bz2 php8.0-intl php8.0-gd php8.0-mbstring php8.0-mysql php8.0-zip php8.0-xml php8.0-curl php8.0-sqlite3"
@@ -22,11 +32,20 @@ SQL_PACKAGES="mariadb-server phpmyadmin"
 # Update package lists
 sudo apt-get update
 
+// Install bashtop
+wget http://packages.azlux.fr/debian/pool/main/b/bashtop/bashtop_0.9.25_all.deb
+sudo dpkg -i bashtop_0.9.25_all.deb
+
 # Install common packages
 sudo apt-get install -y $COMMON_PACKAGES
 
 # Install PHP and related packages on all but www-static
 if [[ "$HOSTNAME" != "www-static" ]]; then
+    sudo apt-get install lsb-release apt-transport-https ca-certificates
+    sudo wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg
+    sudo echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" | sudo tee /etc/apt/sources.list.d/php.list
+    sudo apt-get update
+
     sudo apt-get install -y $PHP_PACKAGES
 fi
 
@@ -39,17 +58,17 @@ if [[ "$HOSTNAME" == "www-sql" ]]; then
 fi
 
 # Ensure SSH is enabled and started
-sudo systemctl enable ssh
-sudo systemctl start ssh
+sudo systemctl enable ssh && sudo systemctl start ssh
 
-# Optional: Enable and start apache2
-sudo systemctl enable apache2
-sudo systemctl start apache2
+# Enable and start apache2
+sudo systemctl enable apache2 && sudo systemctl start apache2
+
+# Disable any active sites
+sudo a2dissite * && sudo service apache2 restart
 
 # Optional: Enable and start mariadb on SQL server
 if [[ "$HOSTNAME" == "www-sql" ]]; then
-    sudo systemctl enable mariadb
-    sudo systemctl start mariadb
+    sudo systemctl enable mariadb && sudo systemctl start mariadb
 fi
 
 # Enable and configure unattended upgrades
@@ -59,6 +78,7 @@ sudo dpkg-reconfigure --priority=low unattended-upgrades
 sudo ufw default deny incoming
 sudo ufw default allow outgoing
 sudo ufw allow OpenSSH
+sudo ufw allow Samba
 sudo ufw allow 'Apache Full'
 sudo ufw --force enable
 
@@ -66,8 +86,7 @@ sudo ufw --force enable
 sudo logrotate /etc/logrotate.conf
 
 # Configure Fail2Ban
-sudo systemctl enable fail2ban
-sudo systemctl start fail2ban
+sudo systemctl enable fail2ban && sudo systemctl start fail2ban
 
 # Set timezone to LA/Pacific
 sudo timedatectl set-timezone America/Los_Angeles
@@ -89,47 +108,22 @@ sudo smbpasswd -e $SAMBA_USER
 cat <<EOT | sudo tee -a /etc/samba/smb.conf
 
 [www]
+   comment = nas
    path = /var/www
-   valid users = $SAMBA_USER
+   guest ok = no
+   browseable = yes
+   create mask = 0777
+   directory mask = 0777
+   writable = yes
    read only = no
-   browsable = yes
+
 EOT
 
 # Restart Samba service
-sudo systemctl restart smbd
-sudo systemctl restart nmbd
+sudo systemctl restart smbd && sudo systemctl restart nmbd
+sudo apt install snapd
+sudo snap install core; sudo snap refresh core
+sudo snap install –classic certbot
+sudo ln -s /snap/bin/certbot /usr/bin/certbot
+sudo certbot –apache
 
-# Configure TightVNC
-# Create the VNC user
-sudo adduser --disabled-password --gecos "" $VNC_USER
-echo "$VNC_USER:$VNC_PASS" | sudo chpasswd
-sudo usermod -aG sudo $VNC_USER
-
-# Switch to the new user and set up the VNC server
-su - $VNC_USER -c "echo $VNC_PASS | vncpasswd -f > ~/.vnc/passwd && chmod 600 ~/.vnc/passwd && vncserver :1 -geometry 1920x1080 -depth 24"
-
-# Configure TightVNC to start at boot
-cat <<EOT | sudo tee /etc/systemd/system/vncserver@.service
-[Unit]
-Description=Start TightVNC server at startup
-After=syslog.target network.target
-
-[Service]
-Type=forking
-User=$VNC_USER
-PAMName=login
-PIDFile=/home/$VNC_USER/.vnc/%H:%i.pid
-ExecStartPre=-/usr/bin/vncserver -kill :%i > /dev/null 2>&1
-ExecStart=/usr/bin/vncserver :%i -geometry 1920x1080 -depth 24
-ExecStop=/usr/bin/vncserver -kill :%i
-
-[Install]
-WantedBy=multi-user.target
-EOT
-
-# Enable the TightVNC service to start at boot
-sudo systemctl daemon-reload
-sudo systemctl enable vncserver@1.service
-sudo systemctl start vncserver@1.service
-
-echo "Setup complete for $HOSTNAME"
