@@ -16,6 +16,11 @@ read -p "Enter the username for Samba: " SAMBA_USER
 read -sp "Enter the password for Samba: " SAMBA_PASS
 echo
 
+# Prompt for .htpasswd username and password
+read -p "Enter a long random text segment for the htpasswd username: " HTUSER
+read -sp "Enter a long random text segment for the htpasswd password: " HTPASS
+echo
+
 # Install bashtop
 wget http://packages.azlux.fr/debian/pool/main/b/bashtop/bashtop_0.9.25_all.deb
 sudo dpkg -i bashtop_0.9.25_all.deb
@@ -122,6 +127,9 @@ sudo snap install core; sudo snap refresh core
 sudo snap install --classic certbot
 sudo ln -s /snap/bin/certbot /usr/bin/certbot
 sudo certbot --apache
+
+# Create the .htpasswd file
+sudo htpasswd -bc /etc/apache2/.htpasswd "$HTUSER" "$HTPASS"
 
 # Replace /etc/apache2/sites-available/000-default.conf
 cat <<EOT | sudo tee /etc/apache2/sites-available/000-default.conf
