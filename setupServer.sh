@@ -22,7 +22,7 @@ COMMON_PACKAGES="nload htop apache2 fail2ban git git-lfs apt-transport-https una
 PHP_PACKAGES="php8.0 php8.0-bcmath php8.0-bz2 php8.0-intl php8.0-gd php8.0-mbstring php8.0-mysql php8.0-zip php8.0-xml php8.0-curl php8.0-sqlite3"
 
 # Additional packages for the SQL server
-SQL_PACKAGES="mariadb-server phpmyadmin"
+SQL_PACKAGES="mariadb-server"
 
 # Update package lists
 sudo apt-get update
